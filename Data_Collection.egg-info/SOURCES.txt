@@ -1,0 +1,9 @@
+README.md
+setup.py
+Data_Collection.egg-info/PKG-INFO
+Data_Collection.egg-info/SOURCES.txt
+Data_Collection.egg-info/dependency_links.txt
+Data_Collection.egg-info/top_level.txt
+utils/__init__.py
+utils/test_all_methods.py
+utils/web_scrapper.py
