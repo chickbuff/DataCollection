@@ -15,4 +15,4 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-CMD ["python", "utils/web_scrapper.py"]
+CMD ["python", "main.py"]
