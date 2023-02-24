@@ -69,6 +69,7 @@ class WebScrapper:
 
 
     '''  
+
     def __init__(self, website_to_scrape: str):
         options = Options()
         options.add_argument("--headless")
@@ -198,6 +199,15 @@ class WebScrapper:
         print(f" Image URL {i+1} saved successfully!")
         return self.product_data_dictionary
            
+    def _create_folder(self, parent_dir:str, child_dir:str):
+        '''
+        Method used to create a folder from the parent and child directories supplied
+    
+        '''
+        folder_to_create = os.path.join(parent_dir,child_dir)
+        os.makedirs(folder_to_create)
+        print(f"'{child_dir}' folder created")
+
     def save_dict_to_json(self, dict_to_save:dict) -> None:
         '''
         Creates a folder called 'raw_data' in the root folder of the project
@@ -208,28 +218,22 @@ class WebScrapper:
         
         try:
             dir_to_create = 'raw_data'
-            self._create_folder('C:/Users/chick/OneDrive/Desktop/Aicore/Projects/DataCollection',dir_to_create)
+            self._create_folder('/app',dir_to_create)
+            #self._create_folder('C:/Users/chick/OneDrive/Desktop/Aicore/Projects/DataCollection',dir_to_create)
         except:
             print(f" {dir_to_create} folder already exists")
         #Loop to create multiple product id folders inside 'raw_data' folder
         for  product_id in dict_to_save['Product Id']:
             try:
                 dir_to_create2 = product_id
-                self._create_folder('C:/Users/chick/OneDrive/Desktop/Aicore/Projects/DataCollection/raw_data',dir_to_create2)
+                self._create_folder('/app/raw_data',dir_to_create2)
                 #create a json file called 'data.json' from dictionary
-                with open (f"C:/Users/chick/OneDrive/Desktop/Aicore/Projects/DataCollection/raw_data/{product_id}/data.json", "w") as fp:                 
+                with open (f"/app/raw_data/{product_id}/data.json", "w") as fp:                 
                     json.dump(dict_to_save, fp)
             except:
                 print(f"{product_id} folder already exist")
              
-    def _create_folder(self, parent_dir:str, child_dir:str):
-        '''
-        Method used to create a folder from the parent and child directories supplied
     
-        '''
-        folder_to_create = os.path.join(parent_dir,child_dir)
-        os.makedirs(folder_to_create)
-        print(f"'{child_dir}' folder created")
 
     def download_img(self, dict_to_download_from:dict) -> None:
         '''
@@ -240,11 +244,11 @@ class WebScrapper:
         '''
         try:
             child_dir = 'Images'
-            self._create_folder('C:/Users/chick/OneDrive/Desktop/Aicore/Projects/DataCollection/raw_data', child_dir)
+            self._create_folder('/app/raw_data', child_dir)
         except:
             print(f"{child_dir} folder already exist")
         for i, image_url in enumerate(dict_to_download_from['Image URL']):
-                urllib.request.urlretrieve(image_url, f"C:/Users/chick/OneDrive/Desktop/Aicore/Projects/DataCollection/raw_data/Images/{dict_to_download_from['Product Id'][i]}.jpg")
+                urllib.request.urlretrieve(image_url, f"/app/raw_data/Images/{dict_to_download_from['Product Id'][i]}.jpg")
         
 
     def scrape_website(self):
@@ -275,10 +279,7 @@ class WebScrapper:
         self.download_img(self.product_data_dictionary)
     
     
-
-if __name__ == "__main__" :
-    bot = WebScrapper("https://www.johnlewis.com/search/view-all-tvs/_/N-474p?search-term=sony+television&chunk=2")           # Creates an instance of the Class             
-    bot.scrape_website() 
+ 
     
    
                                              
